@@ -4,13 +4,13 @@ import time
 import hmac
 import hashlib
 import requests
+import os
 
 app = Flask(__name__)
 
 # Binance API keys
-API_KEY = "NNaai2QQeFzftcWSicIzTmSBtVW7kVaW0W9zr5DKx4kWAT0luyM71pHF0wwJWlaa"
-API_SECRET = "ZtEk57bRIaeTEQK5i15MKkLvvBBUpE1jVqAzzMDb1ZPSjjGTgqqcyn9B4GdZNBbT"
-
+API_KEY = os.getenv('BINANCE_API_KEY')
+API_SECRET = os.getenv('BINANCE_API_SECRET')
 client = Client(API_KEY, API_SECRET)
 
 @app.route('/webhook', methods=['POST'])
@@ -21,8 +21,6 @@ def webhook():
     symbol = data['ticker']
     action = data['action']
     quantity = data['quantity']
-    # Example: Fixed $300 per trade
-    usdt_amount = 300
 
 
 
