@@ -20,8 +20,12 @@ def webhook():
     
     symbol = data['ticker']
     action = data['action']
-    quantity = data['quantity']
-
+    trades = client.get_my_trades(symbol=symbol)
+    last_trade = trades[-1]
+    trade_value_usdt = float(last_trade['qty']) * float(last_trade['price'])
+    price_info = client.get_symbol_ticker(symbol=symbol)
+    price = float(price_info['price'])
+    quantity = round(allocation / price, 4)
 
 
     if action == 'BUY':
@@ -38,7 +42,7 @@ def webhook():
             symbol=symbol,
             side='SELL',
             type='MARKET',
-            quantity=quantity
+            quantity=float(last_trade['qty'])
         )
         return jsonify({'message': 'Sell order placed', 'order': order})
 
