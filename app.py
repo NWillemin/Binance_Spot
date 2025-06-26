@@ -22,10 +22,10 @@ def webhook():
     action = data['action']
     trades = client.get_my_trades(symbol=symbol)
     last_trade = trades[-1]
-    trade_value_usdt = float(last_trade['qty']) * float(last_trade['price'])
+    trade_value_usdt = float(last_trade['quoteQty'])
     price_info = client.get_symbol_ticker(symbol=symbol)
     price = float(price_info['price'])
-    quantity = round(allocation / price, 4)
+    quantity = trade_value_usdt / price
 
 
     if action == 'BUY':
