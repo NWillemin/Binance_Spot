@@ -46,7 +46,7 @@ def webhook():
     if action == 'BUY':
         if len(remaining_assets) == 0:
             return jsonify({'message': 'No assets remaining to buy'}), 400
-        quantity_buy = usdt_balance / len(remaining_assets)
+        quantity_buy = round(usdt_balance*0.99 / len(remaining_assets), 1)
         order = client.create_order(
             symbol=symbol,
             side='BUY',
